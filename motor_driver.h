@@ -5,6 +5,11 @@
 #include "directions.h"
 #include "dc_motor.h"
 
+#define FORWARD 1
+#define BACKWARD 2
+#define BRAKE 3
+#define RELEASE 4
+
 class MotorDriver {
   public:
     MotorDriver();

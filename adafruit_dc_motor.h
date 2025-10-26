@@ -6,7 +6,7 @@
 
 class AdafruitDCMotor : public DCMotor {
   public:
-    AdafruitDCMotor(uint8_t motorId, Adafruit_MotorShield* shield) : motorId(motorId), shield(shield) {}
+    AdafruitDCMotor(uint8_t motorId, Adafruit_MotorShield* shield);
 
     void setup() override;
 

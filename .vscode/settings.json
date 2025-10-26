@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cstdint": "cpp",
+        "executor": "cpp",
+        "io_context": "cpp"
+    }
+}
