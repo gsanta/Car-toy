@@ -51,9 +51,10 @@ void setup() {
 
   delay(2000);
   driver.setDirection(UP); // Set initial direction
-  timerControl.add_microsecond_handler(&driver, 5); // 1000 microseconds = 1 millisecond
+  timerControl.add_microsecond_handler(&driver, 1000); // 1000 microseconds = 1 millisecond
   remote.setup_remote_control();
   remote.add_command_handler(&stepperHandler);
+  driver.start();
 //   remote.add_command_handler(&motorHandler);
 //   driver.setMotor(0, &leftMotor);
 //   driver.setMotor(1, &rightMotor);
@@ -62,10 +63,10 @@ void setup() {
 
 void loop() {
   timerControl.loop();  
-  remote.receive_remote_control_signal();
+  // remote.receive_remote_control_signal();
   // receive_remote_control_signal(manager);
-  // driver.run(FORWARD);
-  // delay(1000);
+  // driver.handleTimerEvent();
+  // delayMicroseconds(1000);
   // driver.run(BACKWARD);
   // delay(1000);
 }

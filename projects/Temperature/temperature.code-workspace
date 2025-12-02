@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../../../dev/arduino/temperature"
+		},
+		{
+			"name": "251130-163557-uno_r4_wifi",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

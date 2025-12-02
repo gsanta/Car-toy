@@ -32,11 +32,16 @@ void MotorDriverA4988::handleTimerEvent() {
     return;
   }
 
-  if (lastStepVoltage == LOW) {
-    digitalWrite(stepPin, HIGH);
-    lastStepVoltage = HIGH;
-  } else {
-    digitalWrite(stepPin, LOW);
-    lastStepVoltage = LOW;
-  }
+  digitalWrite(stepPin, HIGH);
+  delayMicroseconds(2); // Short pulse, adjust as needed (2-10us typical)
+  digitalWrite(stepPin, LOW);
+
+
+  // if (lastStepVoltage == LOW) {  
+  //   digitalWrite(stepPin, HIGH);
+  //   lastStepVoltage = HIGH;
+  // } else {
+  //   digitalWrite(stepPin, LOW);
+  //   lastStepVoltage = LOW;
+  // }
 }
