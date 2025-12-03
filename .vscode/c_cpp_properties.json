@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${HOME}/.arduino15/packages/arduino/hardware/avr/*/cores/arduino",
+                "${HOME}/.arduino15/packages/arduino/hardware/avr/*/variants/standard",
+                "${HOME}/.arduino15/packages/arduino/hardware/avr/*/libraries/**",
+                "${HOME}/.arduino15/packages/esp32/hardware/esp32/*/cores/esp32",
+                "${HOME}/.arduino15/packages/esp32/hardware/esp32/*/libraries/**",
+                "${HOME}/Arduino/libraries/**",
+                "/usr/share/arduino/hardware/arduino/avr/cores/arduino",
+                "/usr/share/arduino/hardware/arduino/avr/variants/standard"
+            ],
+            "defines": [
+                "ARDUINO=10819",
+                "ARDUINO_AVR_UNO",
+                "F_CPU=16000000L",
+                "__AVR_ATmega328P__"
+            ],
+            "compilerPath": "/usr/bin/avr-g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
