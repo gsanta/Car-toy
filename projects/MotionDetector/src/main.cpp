@@ -7,12 +7,13 @@ MotionDetector motionDetector(5);
 MotionDetectorTimerAdapter motionAdapter(&motionDetector);
 
 void setup() {
+  Serial.begin(9600);
+  delay(1000);
   motionDetector.setup();
+  Serial.println("\n--- Motion detector set up ---");
   timer.add_millisecond_handler(&motionAdapter, 1000);
 }
 
 void loop() {
   timer.loop();
-
-  //create a debug timer adapter in system/debug so we can print the motion status
 }
