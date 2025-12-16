@@ -1,9 +1,7 @@
 #include <Arduino.h>
 
-// Passive buzzer connected to GPIO 5
-const int BUZZER_PIN = 5;
-const int PWM_CHANNEL = 0;  // PWM channel (0-15)
-const int RESOLUTION = 8;    // 8-bit resolution
+// Passive buzzer connected to digital pin 9 (PWM capable)
+const int BUZZER_PIN = 9;
 
 // Note frequencies (in Hz)
 #define NOTE_C4  262
@@ -14,51 +12,71 @@ const int RESOLUTION = 8;    // 8-bit resolution
 #define NOTE_A4  440
 #define NOTE_B4  494
 #define NOTE_C5  523
+#define NOTE_D5  587
+#define NOTE_E5  659
 
 void playTone(int frequency, int duration) {
   if (frequency > 0) {
-    ledcWriteTone(PWM_CHANNEL, frequency);
+    tone(BUZZER_PIN, frequency);
     delay(duration);
   }
-  ledcWriteTone(PWM_CHANNEL, 0);  // Stop tone
+  noTone(BUZZER_PIN);  // Stop tone
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  pinMode(BUZZER_PIN, OUTPUT);
   
-  // Configure PWM for the buzzer
-  ledcSetup(PWM_CHANNEL, 2000, RESOLUTION);  // 2kHz base frequency, 8-bit resolution
-  ledcAttachPin(BUZZER_PIN, PWM_CHANNEL);
-  
-  Serial.println("Passive Buzzer Demo - ESP32");
+  Serial.println("Passive Buzzer Demo - Arduino Nano");
 }
 
 void loop() {
-  // Play a simple melody
-  Serial.println("Playing melody...");
+  // Play "Kiskarácsony, nagykarácsony" (Hungarian Christmas song)
+  Serial.println("Playing Kiskaracsony, nagykaracsony...");
   
-  playTone(NOTE_C4, 300);
-  delay(100);
-  playTone(NOTE_E4, 300);
-  delay(100);
-  playTone(NOTE_G4, 300);
-  delay(100);
-  playTone(NOTE_C5, 500);
+  // "Kis-ka-rá-csony, nagy-ka-rá-csony"
+  playTone(NOTE_G4, 400);
+  delay(50);
+  playTone(NOTE_G4, 400);
+  delay(50);
+  playTone(NOTE_A4, 400);
+  delay(50);
+  playTone(NOTE_G4, 400);
+  delay(50);
+  playTone(NOTE_F4, 400);
+  delay(50);
+  playTone(NOTE_E4, 400);
+  delay(50);
+  playTone(NOTE_D4, 800);
+  delay(200);
+  
+  // "Más-nap me-gyünk to-vább"
+  playTone(NOTE_D4, 400);
+  delay(50);
+  playTone(NOTE_E4, 400);
+  delay(50);
+  playTone(NOTE_F4, 400);
+  delay(50);
+  playTone(NOTE_E4, 400);
+  delay(50);
+  playTone(NOTE_D4, 400);
+  delay(50);
+  playTone(NOTE_C4, 800);
+  delay(200);
+  
+  // "Más-nap me-gyünk to-vább"
+  playTone(NOTE_D4, 400);
+  delay(50);
+  playTone(NOTE_E4, 400);
+  delay(50);
+  playTone(NOTE_F4, 400);
+  delay(50);
+  playTone(NOTE_E4, 400);
+  delay(50);
+  playTone(NOTE_D4, 400);
+  delay(50);
+  playTone(NOTE_C4, 800);
   delay(500);
-  
-  // Play a siren effect
-  Serial.println("Playing siren...");
-  for (int i = 0; i < 3; i++) {
-    for (int freq = 400; freq <= 800; freq += 10) {
-      ledcWriteTone(PWM_CHANNEL, freq);
-      delay(10);
-    }
-    for (int freq = 800; freq >= 400; freq -= 10) {
-      ledcWriteTone(PWM_CHANNEL, freq);
-      delay(10);
-    }
-  }
-  ledcWriteTone(PWM_CHANNEL, 0);
   
   delay(2000);  // Wait before repeating
 }

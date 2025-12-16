@@ -9,9 +9,8 @@
 class StepperMotorDriver {
   public:
     virtual void setDirection(uint8_t direction) = 0;
+    virtual void rotate() = 0;
     virtual void stop() = 0;
-    virtual void start() = 0;
-    virtual bool isStopped() = 0;
     virtual ~StepperMotorDriver() {}
 };
 
