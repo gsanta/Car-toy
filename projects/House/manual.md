@@ -1,0 +1,2 @@
+
+Winter house (light + buzzer)
