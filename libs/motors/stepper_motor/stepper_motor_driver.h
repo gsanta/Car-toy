@@ -8,9 +8,14 @@
 
 class StepperMotorDriver {
   public:
-    virtual void setDirection(uint8_t direction) = 0;
+    virtual bool isRunning() = 0;
+
     virtual void rotate() = 0;
+    
     virtual void stop() = 0;
+    
+    virtual void setDirection(uint8_t direction) = 0;
+    
     virtual ~StepperMotorDriver() {}
 };
 

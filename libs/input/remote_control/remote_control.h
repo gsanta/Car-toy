@@ -1,7 +1,7 @@
 #ifndef REMOTE_CONTROL_H
 #define REMOTE_CONTROL_H
 
-#include "command_handler.h"
+#include "../command_handler.h"
 
 #define MAX_COMMAND_HANDLERS 5
 

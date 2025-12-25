@@ -7,9 +7,11 @@ class MotorDriverA4988 : public StepperMotorDriver {
   public:
     MotorDriverA4988(uint8_t stepPin, uint8_t dirPin);
 
-    void setDirection(uint8_t direction) override;
-
+    bool isRunning();
+    
     void rotate();
+    
+    void setDirection(uint8_t direction) override;
 
     void stop() override;
 
@@ -19,6 +21,7 @@ class MotorDriverA4988 : public StepperMotorDriver {
     uint8_t stepPin;
     uint8_t dirPin;
     uint8_t lastStepVoltage = LOW;
+    bool is_running = false;
 };
 
 #endif
