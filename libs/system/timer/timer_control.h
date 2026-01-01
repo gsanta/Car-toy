@@ -10,20 +10,18 @@ class TimerControl {
   public:
     TimerControl();
 
-    void add_microsecond_handler(TimerHandler *handler, int delay);
-    void add_millisecond_handler(TimerHandler *handler, int delay);
+    void add_microsecond_handler(TimerHandler *handler);
+    void add_millisecond_handler(TimerHandler *handler);
+    void remove_microsecond_handler(TimerHandler *handler);
+    void remove_millisecond_handler(TimerHandler *handler);
 
     void loop();
 
   private:              
     TimerHandler* handlers_micros[MAX_TIMER_HANDLERS];
-    int delays_micros[MAX_TIMER_HANDLERS];
-    unsigned long last_step_micros[MAX_TIMER_HANDLERS];
     int handler_micros_count;
 
     TimerHandler* handlers_millis[MAX_TIMER_HANDLERS];
-    int delays_millis[MAX_TIMER_HANDLERS];
-    unsigned long last_step_millis[MAX_TIMER_HANDLERS];
     int handler_millis_count;
 };
 
