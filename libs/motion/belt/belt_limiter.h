@@ -8,18 +8,15 @@ enum LimitSide {
   RIGHT_SIDE
 };
 
-class LimitReachedCommand;
-
 class BeltLimiter {
 private:
   LimitSwitch leftLimit;
   LimitSwitch rightLimit;
-  LimitReachedCommand* command;
 
 public:
   BeltLimiter(int leftPin, int rightPin);
   void setup();
-  void checkLimits(LimitReachedCommand& command);
+  void checkLimits();
   
   LimitSwitch& getLeftLimit();
   LimitSwitch& getRightLimit();

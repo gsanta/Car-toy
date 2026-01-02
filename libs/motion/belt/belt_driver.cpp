@@ -1,28 +1,52 @@
 #include "belt_driver.h"
 
-BeltDriver::BeltDriver(BeltLimiter& beltLimiter, LimitReachedCommand& command, TimerControl& timerControl, StepperMotorDriver* stepperMotor)
-  : beltLimiter(beltLimiter), command(command), timerControl(timerControl), stepperMotor(stepperMotor), isRunning(false) {
-  stepperAdapter = new StepperMotorTimerAdapter(stepperMotor);
+BeltDriver::BeltDriver(int leftPin, int rightPin, TimerControl& timerControl, StepperMotorDriver& stepperMotor)
+  : beltLimiter(leftPin, rightPin), limiterAdapter(beltLimiter, *this), timerControl(timerControl), stepperMotor(stepperMotor), stepperAdapter(stepperMotor), isRunning(false) {
+    timerControl.add_microsecond_handler(&stepperAdapter);
+    timerControl.add_millisecond_handler(&limiterAdapter);
 }
 
 BeltDriver::~BeltDriver() {
-  delete stepperAdapter;
 }
 
 void BeltDriver::moveLeft() {
   if (beltLimiter.getLeftLimit().isTriggered()) {
     return;
   }
-  stepperMotor->setDirection(DOWN);
+
+  if (!isRunning) {
+    startMotor();
+  }
+
+  stepperMotor.setDirection(DOWN);
 }
 
 void BeltDriver::moveRight() {
   if (beltLimiter.getRightLimit().isTriggered()) {
     return;
   }
-  stepperMotor->setDirection(UP);
+
+  if (!isRunning) {
+    startMotor();
+  }
+
+  stepperMotor.setDirection(UP);
 }
 
-void BeltDriver::handleTimerEvent() {
-  beltLimiter.checkLimits(command);
+void BeltDriver::startMotor() {
+  if (!isRunning) {
+    timerControl.add_microsecond_handler(&stepperAdapter);
+    isRunning = true;
+  }
+}
+
+void BeltDriver::stopMotor() {
+  if (isRunning) {
+    timerControl.remove_microsecond_handler(&stepperAdapter);
+    isRunning = false;
+  }
+}
+
+bool BeltDriver::getIsRunning() const {
+  return isRunning;
 }

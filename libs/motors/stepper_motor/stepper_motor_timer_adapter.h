@@ -6,7 +6,7 @@
 
 class StepperMotorTimerAdapter : public TimerHandler {
 public:
-  StepperMotorTimerAdapter(class StepperMotorDriver* driver) : driver(driver) {}
+  StepperMotorTimerAdapter(class StepperMotorDriver& driver) : TimerHandler(1000), driver(driver) {}
 
   void stop() {
     stopped = true;
@@ -20,13 +20,13 @@ public:
     if (stopped) {
         return;
     }
-    driver->rotate();
+    driver.rotate();
     delayMicroseconds(2);
-    driver->stop();
+    driver.stop();
   }
 
 private:
-  class StepperMotorDriver* driver;
+  class StepperMotorDriver& driver;
 
   bool stopped = true;
 };

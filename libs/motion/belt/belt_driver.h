@@ -2,28 +2,30 @@
 #define BELT_DRIVER_H
 
 #include "belt_limiter.h"
-#include "../../logic/limit_switch/limit_reached_command.h"
+#include "belt_limiter_timer_adapter.h"
 #include "../../system/timer/timer_handler.h"
 #include "../../system/timer/timer_control.h"
 #include "../../motors/stepper_motor/stepper_motor_driver.h"
 #include "../../motors/stepper_motor/stepper_motor_timer_adapter.h"
 
-class BeltDriver : public TimerHandler {
+class BeltDriver {
 private:
-    BeltLimiter& beltLimiter;
-    LimitReachedCommand& command;
+    BeltLimiter beltLimiter;
+    BeltLimiterTimerAdapter limiterAdapter;
     TimerControl& timerControl;
-    StepperMotorDriver* stepperMotor;
-    StepperMotorTimerAdapter* stepperAdapter;
+    StepperMotorDriver& stepperMotor;
+    StepperMotorTimerAdapter stepperAdapter;
     bool isRunning;
 
 public:
-    BeltDriver(BeltLimiter& beltLimiter, LimitReachedCommand& command, TimerControl& timerControl, StepperMotorDriver* stepperMotor);
+    BeltDriver(int leftPin, int rightPin, TimerControl& timerControl, StepperMotorDriver& stepperMotor);
     ~BeltDriver();
-    
+
+    void startMotor();
+    void stopMotor();
     void moveLeft();
     void moveRight();
-    void handleTimerEvent() override;
+    bool getIsRunning() const;
 };
 
 #endif // BELT_DRIVER_H

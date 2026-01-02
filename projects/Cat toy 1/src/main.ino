@@ -4,10 +4,8 @@
 #include "../lib/motors/stepper_motor/stepper_command_handler.h"
 #include "../lib/system/timer/timer_control.h"
 #include "../lib/input/remote_control/remote_control.h"
-#include "../lib/input/remote_control/remote_control_timer_adapter.h"
-#include "../lib/input/limit_switch/belt_limiter.h"
-#include "../lib/input/limit_switch/limit_reached_command.h"
-#include "../lib/input/limit_switch/belt_limiter_timer_adapter.h"
+#include "../lib/motion/belt/belt_driver.h"
+#include "../lib/motion/belt/belt_remote_controller.h"
 
 // Define motor pins
 #define STEP_PIN 2
@@ -21,47 +19,19 @@ MotorDriverA4988 motor(STEP_PIN, DIR_PIN);
 
 TimerControl timerControl;
 
-RemoteControl remote(11);
+RemoteControl remote(11, timerControl);
 
-StepperMotorTimerAdapter motorTimerAdapter(&motor);
+BeltDriver beltDriver(LEFT_LIMIT, RIGHT_LIMIT, timerControl, motor);
 
-StepperCommandHandler stepperCommandHandler(motor);
-
-BeltLimiter beltLimiter(LEFT_LIMIT, RIGHT_LIMIT);
-
-class StopMotorCommand : public LimitReachedCommand {
-public:
-  void execute(LimitSide side) override {
-    motorTimerAdapter.stop();
-  }
-};
-
-StopMotorCommand stopMotorCommand;
-
-BeltLimiterTimerAdapter beltLimiterTimerAdapter(beltLimiter, stopMotorCommand);
-RemoteControlTimerAdapter remoteControlTimerAdapter(remote);
+BeltRemoteController beltRemoteController(beltDriver, remote);
 
 void setup() {
   // Initialize serial communication at 9600 baud rate
   Serial.begin(9600);
 
   delay(2000);
-  timerControl.add_microsecond_handler(&motorTimerAdapter, 1000);
-  timerControl.add_millisecond_handler(&beltLimiterTimerAdapter, 100);
-  timerControl.add_millisecond_handler(&remoteControlTimerAdapter, 20);
   remote.setup_remote_control();
-  remote.add_command_handler(&stepperCommandHandler);
 
-  motorTimerAdapter.start();
-
-  motor.setDirection(1); // Set initial direction
-
-  // motor.rotate();
-
-  beltLimiter.setup();
-
-  
-  // Motor is initialized by constructor
   Serial.println("Motor initialized");
 }
 

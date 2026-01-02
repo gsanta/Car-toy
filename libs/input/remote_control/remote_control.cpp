@@ -2,15 +2,17 @@
 #include <Arduino.h>
 #include <IRremote.hpp>
 #include "remote_control.h"
+#include "remote_control_timer_listener.h"
 #include "command_handler.h"
 
 #define DECODE_NEC
 
-RemoteControl::RemoteControl(int receiverPin) : pin(receiverPin), handlerCount(0) {}
+RemoteControl::RemoteControl(int receiverPin, TimerControl& timerControl) : pin(receiverPin), timerControl(timerControl), timerListener(*this), handlerCount(0) {}
 
 void RemoteControl::setup_remote_control() {
     Serial.begin(9600);
     IrReceiver.begin(pin, true);
+    timerControl.add_millisecond_handler(&timerListener);
 }
 
 void RemoteControl::add_command_handler(CommandHandler *handler) {
@@ -41,21 +43,3 @@ void RemoteControl::receive_remote_control_signal() {
         }
     }
 }
-
-
-// void setup_remote_control() {
-//   Serial.begin(9600);
-//   IrReceiver.begin(11, true);
-// }
-
-// void receive_remote_control_signal(SignalManager &manager) {
-//   if (IrReceiver.decode()) {
-//     IrReceiver.resume();
-
-//     if (IrReceiver.decodedIRData.command == 0x5) {
-//         manager.handleSignal("Forward");
-//     } else if (IrReceiver.decodedIRData.command == 0xD) {
-//         manager.handleSignal("Stop");
-//     }
-//   }
-// }
