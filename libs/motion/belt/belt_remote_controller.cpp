@@ -4,6 +4,7 @@
 BeltRemoteController::BeltRemoteController(BeltDriver& beltDriver, RemoteControl& remoteControl) 
   : beltDriver(beltDriver), remoteControl(remoteControl), commandHandler(100) {
   commandHandler.setController(this);
+  remoteControl.add_command_handler(&commandHandler);
 }
 
 BeltRemoteController::~BeltRemoteController() {

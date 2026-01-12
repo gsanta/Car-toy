@@ -10,6 +10,7 @@ copy-libs:
 	cp -r ../../libs/system/timer/* lib/system/timer/
 
 	rm -rf lib/input
+	
 	mkdir -p lib/input/remote_control
 	cp ../../libs/input/remote_control/remote_control_timer_listener.h lib/input/remote_control/remote_control_timer_listener.h
 	cp ../../libs/input/remote_control/remote_control_timer_listener.cpp lib/input/remote_control/remote_control_timer_listener.cpp
@@ -17,6 +18,15 @@ copy-libs:
 	cp ../../libs/input/remote_control/remote_control.h lib/input/remote_control/remote_control.h
 	cp ../../libs/input/command_handler.h lib/input/command_handler.h
 	cp ../../libs/system/directions.h lib/system/directions.h
+
+	mkdir -p lib/input/joystick
+	cp ../../libs/input/joystick/joystick.cpp lib/input/joystick/joystick.cpp
+	cp ../../libs/input/joystick/joystick.h lib/input/joystick/joystick.h
+	cp ../../libs/input/joystick/joystick_command_handler.h lib/input/joystick/joystick_command_handler.h
+	cp ../../libs/input/joystick/joystick_wrapper.cpp lib/input/joystick/joystick_wrapper.cpp
+	cp ../../libs/input/joystick/joystick_wrapper.h lib/input/joystick/joystick_wrapper.h
+	cp ../../libs/input/joystick/joystick_timer_listener.h lib/input/joystick/joystick_timer_listener.h
+	cp ../../libs/input/joystick/joystick_timer_listener.cpp lib/input/joystick/joystick_timer_listener.cpp
 
 	rm -rf lib/motion/belt
 	mkdir -p lib/motion/belt

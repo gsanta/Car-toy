@@ -2,7 +2,7 @@
 
 BeltDriver::BeltDriver(int leftPin, int rightPin, TimerControl& timerControl, StepperMotorDriver& stepperMotor)
   : beltLimiter(leftPin, rightPin), limiterAdapter(beltLimiter, *this), timerControl(timerControl), stepperMotor(stepperMotor), stepperAdapter(stepperMotor), isRunning(false) {
-    timerControl.add_microsecond_handler(&stepperAdapter);
+    beltLimiter.setup();
     timerControl.add_millisecond_handler(&limiterAdapter);
 }
 

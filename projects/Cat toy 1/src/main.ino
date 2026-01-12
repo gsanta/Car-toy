@@ -6,6 +6,7 @@
 #include "../lib/input/remote_control/remote_control.h"
 #include "../lib/motion/belt/belt_driver.h"
 #include "../lib/motion/belt/belt_remote_controller.h"
+#include "../lib/input/joystick/joystick_wrapper.h"
 
 // Define motor pins
 #define STEP_PIN 2
@@ -20,6 +21,8 @@ MotorDriverA4988 motor(STEP_PIN, DIR_PIN);
 TimerControl timerControl;
 
 RemoteControl remote(11, timerControl);
+
+JoystickWrapper joystick(A0, A1, 7, timerControl);
 
 BeltDriver beltDriver(LEFT_LIMIT, RIGHT_LIMIT, timerControl, motor);
 
