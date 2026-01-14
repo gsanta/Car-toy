@@ -23,10 +23,8 @@ copy-libs:
 	cp ../../libs/input/joystick/joystick.cpp lib/input/joystick/joystick.cpp
 	cp ../../libs/input/joystick/joystick.h lib/input/joystick/joystick.h
 	cp ../../libs/input/joystick/joystick_command_handler.h lib/input/joystick/joystick_command_handler.h
-	cp ../../libs/input/joystick/joystick_wrapper.cpp lib/input/joystick/joystick_wrapper.cpp
-	cp ../../libs/input/joystick/joystick_wrapper.h lib/input/joystick/joystick_wrapper.h
-	cp ../../libs/input/joystick/joystick_timer_listener.h lib/input/joystick/joystick_timer_listener.h
-	cp ../../libs/input/joystick/joystick_timer_listener.cpp lib/input/joystick/joystick_timer_listener.cpp
+	cp ../../libs/input/joystick/staged_joystick_manager.cpp lib/input/joystick/staged_joystick_manager.cpp
+	cp ../../libs/input/joystick/staged_joystick_manager.h lib/input/joystick/staged_joystick_manager.h
 
 	rm -rf lib/motion/belt
 	mkdir -p lib/motion/belt
@@ -36,10 +34,8 @@ copy-libs:
 	cp ../../libs/motion/belt/belt_limiter.h lib/motion/belt/
 	cp ../../libs/motion/belt/belt_limiter_timer_adapter.cpp lib/motion/belt/
 	cp ../../libs/motion/belt/belt_limiter_timer_adapter.h lib/motion/belt/
-	cp ../../libs/motion/belt/belt_remote_controller.cpp lib/motion/belt/
-	cp ../../libs/motion/belt/belt_remote_controller.h lib/motion/belt/
-	cp ../../libs/motion/belt/belt_remote_controller_command_handler.cpp lib/motion/belt/
-	cp ../../libs/motion/belt/belt_remote_controller_command_handler.h lib/motion/belt/
+	cp ../../libs/motion/belt/belt_joystick_controller.cpp lib/motion/belt/
+	cp ../../libs/motion/belt/belt_joystick_controller.h lib/motion/belt/
 	
 	rm -rf lib/logic/limit_switch
 	mkdir -p lib/logic/limit_switch

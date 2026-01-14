@@ -5,8 +5,8 @@
 #include "../lib/system/timer/timer_control.h"
 #include "../lib/input/remote_control/remote_control.h"
 #include "../lib/motion/belt/belt_driver.h"
-#include "../lib/motion/belt/belt_remote_controller.h"
-#include "../lib/input/joystick/joystick_wrapper.h"
+#include "../lib/motion/belt/belt_joystick_controller.h"
+#include "../lib/input/joystick/staged_joystick_manager.h"
 
 // Define motor pins
 #define STEP_PIN 2
@@ -22,11 +22,11 @@ TimerControl timerControl;
 
 RemoteControl remote(11, timerControl);
 
-JoystickWrapper joystick(A0, A1, 7, timerControl);
+StagedJoystickManager joystick(A0, A1, 7, timerControl);
 
 BeltDriver beltDriver(LEFT_LIMIT, RIGHT_LIMIT, timerControl, motor);
 
-BeltRemoteController beltRemoteController(beltDriver, remote);
+BeltJoystickController beltJoystickController(beltDriver, joystick);
 
 void setup() {
   // Initialize serial communication at 9600 baud rate
@@ -34,6 +34,7 @@ void setup() {
 
   delay(2000);
   remote.setup_remote_control();
+  joystick.setup();
 
   Serial.println("Motor initialized");
 }

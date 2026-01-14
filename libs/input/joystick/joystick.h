@@ -3,7 +3,6 @@
 
 #include "./joystick_command_handler.h"
 #include "../../system/timer/timer_control.h"
-#include "joystick_timer_listener.h"
 
 class TimerControl;
 
@@ -19,6 +18,16 @@ class Joystick {
 
     void read();
 
+    int getXVal() const;
+    int getYVal() const;
+
+    int getXMin() const;
+    int getXMax() const;
+    int getYMin() const;
+    int getYMax() const;
+
+    int getButtonState() const;
+
   private:              
     int xPin;
     int yPin;
@@ -28,8 +37,10 @@ class Joystick {
     int yVal = 0;
     int buttonState = 0;
 
-    JoystickCommandHandler* handlers[MAX_COMMAND_HANDLERS];
-    int handlerCount;
+    int xMin = 0;
+    int xMax = 1023;
+    int yMin = 0;
+    int yMax = 1023;
 };
 
 #endif
