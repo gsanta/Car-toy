@@ -13,6 +13,7 @@ public:
     virtual ~TimerHandler() {}
     
     int getDelay() const { return delay; }
+    void setDelay(int value) { delay = value; }
     unsigned long getElapsed() const { return elapsed; }
     void setElapsed(unsigned long value) { elapsed = value; }
 };

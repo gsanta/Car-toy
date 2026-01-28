@@ -26,6 +26,7 @@ public:
     void moveLeft();
     void moveRight();
     bool getIsRunning() const;
+    StepperMotorDriver& getStepperMotor();
 };
 
 #endif // BELT_DRIVER_H

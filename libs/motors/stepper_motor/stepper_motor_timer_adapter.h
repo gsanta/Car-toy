@@ -6,7 +6,7 @@
 
 class StepperMotorTimerAdapter : public TimerHandler {
 public:
-  StepperMotorTimerAdapter(class StepperMotorDriver& driver) : TimerHandler(1000), driver(driver) {}
+  StepperMotorTimerAdapter(class StepperMotorDriver& driver) : TimerHandler(driver.getDelay()), driver(driver) {}
 
   void stop() {
     stopped = true;
@@ -20,15 +20,25 @@ public:
     if (stopped) {
         return;
     }
-    driver.rotate();
-    delayMicroseconds(2);
-    driver.stop();
+
+    // Update delay based on current speed
+    setDelay(driver.getDelay());
+
+    static bool pulseState = false;
+    
+    if (!pulseState) {
+      driver.rotate();
+      pulseState = true;
+    } else {
+      driver.stop();
+      pulseState = false;
+    }
   }
 
 private:
   class StepperMotorDriver& driver;
 
-  bool stopped = true;
+  bool stopped = false;
 };
 
 #endif

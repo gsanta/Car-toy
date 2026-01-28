@@ -15,8 +15,16 @@ class StepperMotorDriver {
     virtual void stop() = 0;
     
     virtual void setDirection(uint8_t direction) = 0;
+
+    void setSpeed(int speed);
+    int getSpeed();
+    
+    int getDelay();
     
     virtual ~StepperMotorDriver() {}
+
+  protected:
+    int speed = 1;
 };
 
 #endif

@@ -35,6 +35,7 @@ void setup() {
   delay(2000);
   remote.setup_remote_control();
   joystick.setup();
+  // beltDriver.startMotor();
 
   Serial.println("Motor initialized");
 }

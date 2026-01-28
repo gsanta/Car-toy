@@ -50,3 +50,7 @@ void BeltDriver::stopMotor() {
 bool BeltDriver::getIsRunning() const {
   return isRunning;
 }
+
+StepperMotorDriver& BeltDriver::getStepperMotor() {
+  return stepperMotor;
+}

@@ -16,17 +16,20 @@ BeltDriver& BeltJoystickController::getBeltDriver() {
 
 void BeltJoystickControllerCommandHandler::handleMove(int xVal, int yVal) {
   if (joystickController != nullptr) {
-    Serial.print("X Stage: ");
-    Serial.print(xVal);
-    Serial.print(" Y Stage: ");
-    Serial.println(yVal);
+    // Set speed based on yVal (0 = don't set, 1 or 2 = set speed)
+    if (yVal != 0) {
+      joystickController->getBeltDriver().getStepperMotor().setSpeed(yVal);
+    }
 
     if (xVal > 0) {
       joystickController->getBeltDriver().moveRight();
+      Serial.println("Moving right");
     } else if (xVal < 0) {
       joystickController->getBeltDriver().moveLeft();
+      Serial.println("Moving left");
     } else {
-      joystickController->getBeltDriver().stopMotor();
+      // joystickController->getBeltDriver().stopMotor();
+      // Serial.println("Motor stopped");
     }
   }
 }

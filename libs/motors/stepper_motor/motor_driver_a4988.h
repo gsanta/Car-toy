@@ -22,6 +22,7 @@ class MotorDriverA4988 : public StepperMotorDriver {
     uint8_t dirPin;
     uint8_t lastStepVoltage = LOW;
     bool is_running = false;
+    int speed = 1;
 };
 
 #endif
