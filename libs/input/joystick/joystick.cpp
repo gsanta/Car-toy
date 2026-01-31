@@ -4,8 +4,6 @@
 Joystick::Joystick(int xPin, int yPin, int buttonPin) : xPin(xPin), yPin(yPin), buttonPin(buttonPin) {}
 
 void Joystick::setup() {
-  pinMode(xPin, INPUT);
-  pinMode(yPin, INPUT);
   pinMode(buttonPin, INPUT_PULLUP);
 }
 

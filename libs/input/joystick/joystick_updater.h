@@ -1,5 +1,5 @@
-#ifndef STAGED_JOYSTICK_MANAGER_H
-#define STAGED_JOYSTICK_MANAGER_H
+#ifndef JOYSTICK_UPDATER_H
+#define JOYSTICK_UPDATER_H
 
 #include "../../system/timer/timer_control.h"
 #include "./joystick_command_handler.h"
@@ -8,36 +8,36 @@
 #define MAX_COMMAND_HANDLERS 5
 
 class Joystick;
-class StagedJoystickManager;
+class JoystickUpdater;
 
 class JoystickTimerListener : public TimerHandler {
 private:
-  StagedJoystickManager& manager;
+  JoystickUpdater& manager;
 
 public:
-  JoystickTimerListener(StagedJoystickManager& manager);
+  JoystickTimerListener(JoystickUpdater& manager);
 
   void handleTimerEvent() override;
 };
 
 
-class StagedJoystickManager {
+class JoystickUpdater {
   friend class JoystickTimerListener;
 
   public:
-    StagedJoystickManager(int xPin, int yPin, int buttonPin, TimerControl& timerControl);
+    JoystickUpdater(Joystick& joystick, TimerControl& timerControl);
 
-    void addCommandHandler(JoystickCommandHandler *handler);
+    // void addCommandHandler(JoystickCommandHandler *handler);
 
     void setup();
 
   private:
-    int calculateStage(int value, int minVal, int maxVal) const;
+    // int calculateStage(int value, int minVal, int maxVal) const;
 
-    void updateStages();
+    // void updateStages();
     void update();
 
-    Joystick joystick;
+    Joystick& joystick;
     TimerControl& timerControl;
     JoystickTimerListener timerListener;
 
@@ -47,11 +47,11 @@ class StagedJoystickManager {
     int previousYStage = 0;
     int previousButtonState = 0;
 
-    JoystickCommandHandler* handlers[MAX_COMMAND_HANDLERS];
+    // JoystickCommandHandler* handlers[MAX_COMMAND_HANDLERS];
     int handlerCount;
 };
 
-inline JoystickTimerListener::JoystickTimerListener(StagedJoystickManager& manager) : TimerHandler(20), manager(manager) {}
+inline JoystickTimerListener::JoystickTimerListener(JoystickUpdater& manager) : TimerHandler(20), manager(manager) {}
 
 inline void JoystickTimerListener::handleTimerEvent() {
   manager.update();
