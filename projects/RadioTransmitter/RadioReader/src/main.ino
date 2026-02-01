@@ -13,8 +13,10 @@ class TestRadioReadCommandHandler : public RadioReadCommandHandler {
 public:
 
   void handleMessageReceived(const char* message) override {
-    Serial.print("Received message: ");
-    Serial.println(message);
+    if (message != nullptr && message[0] != '\0') {
+      Serial.print("Received message: ");
+      Serial.println(message);
+    }
   };
 };
 

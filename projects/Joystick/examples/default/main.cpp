@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
-#include "../lib/system/timer/timer_control.h"
-#include "../lib/input/joystick/joystick.h"
-#include "../lib/input/joystick/joystick_updater.h"
-#include "./test_staged_joystick_reader.h"
+#include "../../lib/system/timer/timer_control.h"
+#include "../../lib/input/joystick/joystick.h"
+#include "../../lib/input/joystick/joystick_updater.h"
+#include "../../src/test_staged_joystick_reader.h"
 
 TimerControl timerControl;
 

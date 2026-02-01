@@ -8,3 +8,6 @@ copy-libs:
 
 	mkdir -p lib/input/joystick
 	cp -r ../../libs/input/joystick/* lib/input/joystick
+
+	mkdir -p lib/communication/radio_transmitter
+	cp -r ../../libs/communication/radio_transmitter/* lib/communication/radio_transmitter/
