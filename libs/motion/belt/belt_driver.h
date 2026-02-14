@@ -2,31 +2,61 @@
 #define BELT_DRIVER_H
 
 #include "belt_limiter.h"
-#include "belt_limiter_timer_adapter.h"
+#include "belt_driver_timer.h"
 #include "../../system/timer/timer_handler.h"
 #include "../../system/timer/timer_control.h"
 #include "../../motors/stepper_motor/stepper_motor_driver.h"
-#include "../../motors/stepper_motor/stepper_motor_timer_adapter.h"
 
-class BeltDriver {
-private:
-    BeltLimiter beltLimiter;
-    BeltLimiterTimerAdapter limiterAdapter;
-    TimerControl& timerControl;
-    StepperMotorDriver& stepperMotor;
-    StepperMotorTimerAdapter stepperAdapter;
-    bool isRunning;
-
+class BeltDriver : public TimerHandler, StepperMotorDriver {
 public:
-    BeltDriver(int leftPin, int rightPin, TimerControl& timerControl, StepperMotorDriver& stepperMotor);
-    ~BeltDriver();
+	BeltDriver(int leftPin, int rightPin, TimerControl& timerControl, StepperMotorDriver& stepperMotor);
+	~BeltDriver();
 
-    void startMotor();
-    void stopMotor();
-    void moveLeft();
-    void moveRight();
-    bool getIsRunning() const;
-    StepperMotorDriver& getStepperMotor();
+	void setDirection(uint8_t direction) override {
+		stepperMotor.setDirection(direction);
+	}
+
+	bool isMovementBlocked();
+
+	void high() override {
+		stepperMotor.high();
+	}
+
+	void low() override {
+		stepperMotor.low();
+	}
+
+	bool isRunning() override {
+		return stepperMotor.isRunning();
+	}
+
+	void pulse() override;
+	
+	void setIsRunning(bool running) override {
+		stepperMotor.setIsRunning(running);
+	}
+
+	void setSpeed(int speed) override {
+		stepperMotor.setSpeed(speed);
+	}
+
+	int getSpeed() override {
+		return stepperMotor.getSpeed();
+	}
+	
+	int getDelay() override {
+		return stepperMotor.getDelay();
+	}
+
+	void handleTimerEvent() override;
+	StepperMotorDriver& getStepperMotor();
+
+	private:
+		BeltLimiter beltLimiter;
+		BeltDriverTimer beltDriverTimer;
+		TimerControl& timerControl;
+		StepperMotorDriver& stepperMotor;
+		bool isRunning;
 };
 
 #endif // BELT_DRIVER_H

@@ -3,40 +3,42 @@
 
 #include <Arduino.h>
 #include "../../input/joystick/staged_joystick_manager.h"
-#include "../../input/joystick/joystick_command_handler.h"
+#include "../../input/joystick/staged_joystick_reader.h"
+#include "../../input/joystick/joystick.h"
 
 class BeltDriver;
-class StagedJoystickManager;
-class BeltJoystickController;
+// class StagedJoystickManager;
+// class BeltJoystickController;
 
-class BeltJoystickControllerCommandHandler : public JoystickCommandHandler {
-private:
-  BeltJoystickController* joystickController;
+// class BeltJoystickControllerCommandHandler : public StagedJoystickReader {
+// private:
+//   BeltJoystickController* joystickController;
 
+// public:
+//   BeltJoystickControllerCommandHandler() : joystickController(nullptr) {}
+  
+//   void setController(BeltJoystickController* controller) {
+//     joystickController = controller;
+//   }
+  
+//   void handleMove(int xVal, int yVal) override;
+//   void handleClick(int buttonState) override;
+// };
+
+class BeltJoystickController : public StagedJoystickReader {
 public:
-  BeltJoystickControllerCommandHandler() : joystickController(nullptr) {}
-  
-  void setController(BeltJoystickController* controller) {
-    joystickController = controller;
-  }
-  
-  void handleMove(int xVal, int yVal) override;
-  void handleClick(int buttonState) override;
-};
+  BeltJoystickController(BeltDriver& beltDriver, Joystick& joystick);
+  ~BeltJoystickController();
 
-class BeltJoystickController {
-    friend class BeltJoystickControllerCommandHandler;
+  void handleStagedMove(int xStage, int yStage) override;
     
 private:
     BeltDriver& beltDriver;
     StagedJoystickManager& joystickManager;
-    BeltJoystickControllerCommandHandler commandHandler;
 
     BeltDriver& getBeltDriver();
 
-public:
-    BeltJoystickController(BeltDriver& beltDriver, StagedJoystickManager& joystickManager);
-    ~BeltJoystickController();
+    int maxSpeed = 3;
 };
 
 #endif // BELT_JOYSTICK_CONTROLLER_H

@@ -24,15 +24,7 @@ public:
     // Update delay based on current speed
     setDelay(driver.getDelay());
 
-    static bool pulseState = false;
-    
-    if (!pulseState) {
-      driver.rotate();
-      pulseState = true;
-    } else {
-      driver.stop();
-      pulseState = false;
-    }
+    driver.pulse();
   }
 
 private:

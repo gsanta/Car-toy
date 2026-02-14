@@ -8,23 +8,25 @@
 
 class StepperMotorDriver {
   public:
-    virtual bool isRunning() = 0;
+    virtual bool isRunning();
 
-    virtual void rotate() = 0;
+    virtual void high() = 0;
     
-    virtual void stop() = 0;
+    virtual void low() = 0;
+
+    virtual void pulse();
     
     virtual void setDirection(uint8_t direction) = 0;
+    virtual uint8_t getDirection() = 0;
 
-    void setSpeed(int speed);
-    int getSpeed();
+    virtual void setIsRunning(bool running) = 0;
+
+    virtual void setSpeed(int speed) = 0;
+    virtual int getSpeed() = 0;
     
-    int getDelay();
+    virtual int getDelay() = 0;
     
     virtual ~StepperMotorDriver() {}
-
-  protected:
-    int speed = 1;
 };
 
 #endif

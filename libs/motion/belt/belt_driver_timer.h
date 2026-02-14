@@ -6,13 +6,12 @@
 
 class BeltDriver;
 
-class BeltLimiterTimerAdapter : public TimerHandler {
+class BeltDriverTimer : public TimerHandler {
 private:
-  BeltLimiter& beltLimiter;
   BeltDriver& beltDriver;
 
 public:
-  BeltLimiterTimerAdapter(BeltLimiter& beltLimiter, BeltDriver& beltDriver);
+  BeltDriverTimer(BeltDriver& beltDriver);
   void handleTimerEvent() override;
 };
 

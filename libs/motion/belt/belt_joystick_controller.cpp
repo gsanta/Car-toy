@@ -1,10 +1,8 @@
 #include "belt_joystick_controller.h"
 #include "belt_driver.h"
 
-BeltJoystickController::BeltJoystickController(BeltDriver& beltDriver, StagedJoystickManager& joystickManager) 
-  : beltDriver(beltDriver), joystickManager(joystickManager), commandHandler() {
-  commandHandler.setController(this);
-  joystickManager.addCommandHandler(&commandHandler);
+BeltJoystickController::BeltJoystickController(BeltDriver& beltDriver, Joystick& joystick) 
+  : StagedJoystickReader(maxSpeed, joystick), beltDriver(beltDriver) {
 }
 
 BeltJoystickController::~BeltJoystickController() {
@@ -14,27 +12,25 @@ BeltDriver& BeltJoystickController::getBeltDriver() {
   return beltDriver;
 }
 
-void BeltJoystickControllerCommandHandler::handleMove(int xVal, int yVal) {
-  if (joystickController != nullptr) {
+void BeltJoystickController::handleStagedMove(int xVal, int yVal) {
     // Set speed based on yVal (0 = don't set, 1 or 2 = set speed)
-    if (yVal != 0) {
-      joystickController->getBeltDriver().getStepperMotor().setSpeed(yVal);
-    }
+  if (xVal == 0) {
+    beltDriver.getStepperMotor().stop();
+  } else {
+    int speed = maxSpeed - abs(xVal) + 1;
 
     if (xVal > 0) {
-      joystickController->getBeltDriver().moveRight();
-      Serial.println("Moving right");
+      beltDriver.moveRight();
     } else if (xVal < 0) {
-      joystickController->getBeltDriver().moveLeft();
-      Serial.println("Moving left");
-    } else {
-      // joystickController->getBeltDriver().stopMotor();
-      // Serial.println("Motor stopped");
+      beltDriver.moveLeft();
     }
+
+    beltDriver.getStepperMotor().setSpeed(abs(yVal));
+    beltDriver.getStepperMotor().rotate();
   }
 }
 
-void BeltJoystickControllerCommandHandler::handleClick(int buttonState) {
+void BeltJoystickController::handleClick(int buttonState) {
   if (joystickController != nullptr && buttonState == 1) {
     if (joystickController->getBeltDriver().getIsRunning()) {
       joystickController->getBeltDriver().stopMotor();

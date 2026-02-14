@@ -23,7 +23,7 @@ public:
   void handleStagedMove(int xStage, int yStage) override {
     if (xStage != lastXStage || yStage != lastYStage) {
       char text[32] = {0};
-      snprintf(text, sizeof(text), "X Stage: %d, Y Stage: %d", xStage, yStage);
+      snprintf(text, sizeof(text), "Move X Stage: %d, Y Stage: %d", xStage, yStage);
       transmitter.write(text, sizeof(text));
       Serial.print("Transmitted - ");
       Serial.println(text);
