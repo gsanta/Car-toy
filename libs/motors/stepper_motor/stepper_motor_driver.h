@@ -8,7 +8,7 @@
 
 class StepperMotorDriver {
   public:
-    virtual bool isRunning();
+    virtual bool isRunning() = 0;
 
     virtual void high() = 0;
     

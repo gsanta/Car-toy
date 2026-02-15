@@ -16,6 +16,10 @@ public:
 		stepperMotor.setDirection(direction);
 	}
 
+    uint8_t getDirection() override {
+		return stepperMotor.getDirection();
+	}
+
 	bool isMovementBlocked();
 
 	void high() override {
@@ -56,7 +60,6 @@ public:
 		BeltDriverTimer beltDriverTimer;
 		TimerControl& timerControl;
 		StepperMotorDriver& stepperMotor;
-		bool isRunning;
 };
 
 #endif // BELT_DRIVER_H
