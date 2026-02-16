@@ -1,7 +1,6 @@
 #ifndef TEST_JOYSTICK_RADIO_TRANSMITTER_H
 #define TEST_JOYSTICK_RADIO_TRANSMITTER_H
 
-#include "../../../libs/input/joystick/staged_joystick_reader.h"
 #include "../../../libs/system/timer/timer_handler.h"
 #include "../../lib/communication/radio_transmitter/rf24_radio_transmitter.h"
 #include "../../lib/motors/stepper_motor/motor_driver_a4988.h"
@@ -56,6 +55,10 @@ public:
       } else if (yStage < 0) {
         motor2.setDirection(DOWN);
       }
+
+
+      Serial.println("Motor 2 speed:");
+      Serial.println(speed);
 
       motor2.setSpeed(speed);
     }

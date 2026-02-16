@@ -39,6 +39,12 @@ RF24RadioTransmitterManager radioTransmitter(CHIP_ENABLE_PIN, CHIP_SELECT_NOT_PI
 
 void setup() {
   Serial.begin(9600);
+
+  delay(5000);  // Wait for serial to initialize
+
+  Serial.println("Starting setup...");
+  belt.setup();
+  belt2.setup();
   
   radioTransmitter.setup(true);
   radioTransmitter.addCommandHandler(&stepperMotorRadioController1);

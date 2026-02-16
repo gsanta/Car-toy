@@ -20,18 +20,14 @@ StepperMotorTimerAdapter motorTimerAdapter2(motor2);
 StepperMotorRadioController stepperMotorRadioController1(motor, CONTROL_X);
 StepperMotorRadioController stepperMotorRadioController2(motor2, CONTROL_Y);
 
-Joystick joystick(A0, A1, 7);
-JoystickUpdater joystickUpdater(joystick, timerControl);
-
 const byte address[6] = "00001";
-RF24RadioTransmitterManager radioTransmitter(7, 8, address, timerControl);
+RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
 
 ControlStepperMotorWithRadio controlStepperMotorWithRadio(motor, motor2);
 
 void setup() {
   Serial.begin(9600);
   
-  joystickUpdater.setup();
   radioTransmitter.setup(true);
   radioTransmitter.addCommandHandler(&controlStepperMotorWithRadio);
   timerControl.add_millisecond_handler(&controlStepperMotorWithRadio);
