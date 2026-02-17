@@ -8,10 +8,10 @@ MotorDriverA4988::MotorDriverA4988(uint8_t stepPin, uint8_t dirPin) : stepPin(st
 void MotorDriverA4988::setDirection(uint8_t direction) {
   if (direction == UP) {
     digitalWrite(dirPin, HIGH);
-    direction = UP;
+    this->direction = UP;
   } else if (direction == DOWN) {
     digitalWrite(dirPin, LOW);
-    direction = DOWN;
+    this->direction = DOWN;
   }
 }
 

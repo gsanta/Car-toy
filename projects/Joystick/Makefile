@@ -18,3 +18,11 @@ copy-libs:
 
 	cp ../../libs/input/command_handler.h lib/input/command_handler.h
 	cp ../../libs/system/directions.h lib/system/directions.h
+
+	rm -rf lib/motion/belt
+	mkdir -p lib/motion/belt
+	cp -r ../../libs/motion/belt/* lib/motion/belt/
+
+	rm -rf lib/logic/limit_switch
+	mkdir -p lib/logic/limit_switch
+	cp -r ../../libs/logic/limit_switch/* lib/logic/limit_switch/

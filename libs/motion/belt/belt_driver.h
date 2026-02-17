@@ -55,11 +55,11 @@ public:
 	void handleTimerEvent() override;
 	StepperMotorDriver& getStepperMotor();
 
-	private:
-		BeltLimiter beltLimiter;
-		BeltDriverTimer beltDriverTimer;
-		TimerControl& timerControl;
-		StepperMotorDriver& stepperMotor;
+private:
+  TimerControl& timerControl;
+  StepperMotorDriver& stepperMotor;
+  BeltLimiter beltLimiter;
+  BeltDriverTimer beltDriverTimer;
 };
 
 #endif // BELT_DRIVER_H
