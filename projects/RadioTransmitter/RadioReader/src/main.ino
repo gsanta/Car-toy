@@ -7,7 +7,7 @@
 TimerControl timerControl;
 
 const byte address[6] = "00001";
-RF24RadioTransmitterManager radioTransmitter(7, 8, address, timerControl);
+RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
 
 class TestRadioReadCommandHandler : public RadioReadCommandHandler {
 public:

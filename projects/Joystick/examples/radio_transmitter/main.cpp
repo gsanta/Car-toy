@@ -8,11 +8,11 @@
 
 TimerControl timerControl;
 
-Joystick joystick(A0, A1, 7);
+Joystick joystick(A5, A6, 7);
 JoystickUpdater joystickUpdater(joystick, timerControl);
 
 const byte address[6] = "00001";
-RF24RadioTransmitter radioTransmitter(7, 8, address);
+RF24RadioTransmitter radioTransmitter(8, 9, address);
 
 TestJoystickRadioTransmitter testTransmitter(joystick, radioTransmitter);
 
@@ -26,4 +26,7 @@ void setup() {
 
 void loop() {
   timerControl.loop();
+  // joystick.read();
+  // Serial.println("X: " + String(joystick.getXVal()) + ", Y: " + String(joystick.getYVal()));
+  // delay(500);
 }

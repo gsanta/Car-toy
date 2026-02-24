@@ -31,8 +31,8 @@ RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
 
 // ControlStepperMotorWithRadio controlStepperMotorWithRadio(motor, motor2);
 
-BeltDriver belt(LIMIT_SWITCH_PIN_1, LIMIT_SWITCH_PIN_2, timerControl, motor);
-BeltDriver belt2(LIMIT_SWITCH_PIN_3, LIMIT_SWITCH_PIN_4, timerControl, motor2);
+BeltDriver belt(LIMIT_SWITCH_PIN_3, LIMIT_SWITCH_PIN_4, timerControl, motor);
+BeltDriver belt2(LIMIT_SWITCH_PIN_1, LIMIT_SWITCH_PIN_2, timerControl, motor2);
 
 void setup() {
   Serial.begin(9600);

@@ -38,9 +38,9 @@ class Joystick {
     int buttonState = 0;
 
     int xMin = 0;
-    int xMax = 685;
+    int xMax = 1023;
     int yMin = 0;
-    int yMax = 685;
+    int yMax = 1023;
 };
 
 #endif

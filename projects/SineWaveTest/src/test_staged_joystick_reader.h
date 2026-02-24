@@ -1,14 +1,13 @@
-#ifndef TEST_JOYSTICK_RADIO_TRANSMITTER_H
-#define TEST_JOYSTICK_RADIO_TRANSMITTER_H
+#ifndef TEST_STAGED_JOYSTICK_READER_H
+#define TEST_STAGED_JOYSTICK_READER_H
 
 #include "../../../libs/input/joystick/staged_joystick_reader.h"
 #include "../../../libs/system/timer/timer_handler.h"
-#include "../../lib/communication/radio_transmitter/rf24_radio_transmitter.h"
 
-class TestJoystickRadioTransmitter : public TimerHandler, public StagedJoystickReader {
+class TestStagedJoystickReader : public TimerHandler, public StagedJoystickReader {
 public:
-  TestJoystickRadioTransmitter(Joystick& joystick, RF24RadioTransmitter& transmitter) 
-    : TimerHandler(100), StagedJoystickReader(3, joystick), transmitter(transmitter),
+  TestStagedJoystickReader(Joystick& joystick) 
+    : TimerHandler(100), StagedJoystickReader(3, joystick), 
       lastXStage(0), lastYStage(0) {}
 
   void handleTimerEvent() override {
@@ -22,9 +21,10 @@ public:
 
   void handleStagedMove(int xStage, int yStage) override {
     if (xStage != lastXStage || yStage != lastYStage) {
-      char text[32] = {0};
-      snprintf(text, sizeof(text), "Move X Stage: %d, Y Stage: %d", xStage, yStage);
-      transmitter.write(text, sizeof(text));
+      Serial.print("Stage changed - X: ");
+      Serial.print(xStage);
+      Serial.print(", Y: ");
+      Serial.println(yStage);
       
       lastXStage = xStage;
       lastYStage = yStage;
@@ -32,8 +32,6 @@ public:
   }
 
 private:
-  RF24RadioTransmitter& transmitter;
-
   int lastXStage;
   int lastYStage;
 };

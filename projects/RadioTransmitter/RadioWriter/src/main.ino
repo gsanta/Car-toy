@@ -6,7 +6,7 @@
 TimerControl timerControl;
 
 const byte address[6] = "00001";
-RF24RadioTransmitter radioTransmitter(7, 8, address);
+RF24RadioTransmitter radioTransmitter(8, 9, address);
 
 void setup() {
   Serial.begin(9600);
