@@ -10,41 +10,28 @@
 #include "../../lib/motors/stepper_motor/stepper_motor_radio_controller.h"
 #include "../../lib/motion/belt/belt_driver.h"
 
-TimerControl timerControl;
-
-const uint8_t STEP_PIN_MOTOR_1 = 2;
-const uint8_t DIR_PIN_MOTOR_1 = 3;
-const uint8_t STEP_PIN_MOTOR_2 = 4;
-const uint8_t DIR_PIN_MOTOR_2 = 5;
-const uint8_t CHIP_ENABLE_PIN = 7;
-const uint8_t CHIP_SELECT_NOT_PIN = 8;
-
 const uint8_t LIMIT_SWITCH_PIN_1 = A2;
 const uint8_t LIMIT_SWITCH_PIN_2 = A3;
 const uint8_t LIMIT_SWITCH_PIN_3 = A4;
 const uint8_t LIMIT_SWITCH_PIN_4 = A5;
 
+TimerControl timerControl;
 
-MotorDriverA4988 motor(STEP_PIN_MOTOR_1, DIR_PIN_MOTOR_1);
-MotorDriverA4988 motor2(STEP_PIN_MOTOR_2, DIR_PIN_MOTOR_2);
+MotorDriverA4988 motor(2, 3);
+MotorDriverA4988 motor2(4, 5);
 
-BeltDriver belt(LIMIT_SWITCH_PIN_1, LIMIT_SWITCH_PIN_2, timerControl, motor);
-BeltDriver belt2(LIMIT_SWITCH_PIN_3, LIMIT_SWITCH_PIN_4, timerControl, motor2);
 
 StepperMotorRadioController stepperMotorRadioController1(motor, CONTROL_X);
 StepperMotorRadioController stepperMotorRadioController2(motor2, CONTROL_Y);
 
 const byte address[6] = "00001";
-RF24RadioTransmitterManager radioTransmitter(CHIP_ENABLE_PIN, CHIP_SELECT_NOT_PIN, address, timerControl);
+RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
+
+BeltDriver belt(LIMIT_SWITCH_PIN_3, LIMIT_SWITCH_PIN_4, timerControl, motor);
+BeltDriver belt2(LIMIT_SWITCH_PIN_1, LIMIT_SWITCH_PIN_2, timerControl, motor2);
 
 void setup() {
   Serial.begin(9600);
-
-  delay(5000);  // Wait for serial to initialize
-
-  Serial.println("Starting setup...");
-  belt.setup();
-  belt2.setup();
   
   radioTransmitter.setup(true);
   radioTransmitter.addCommandHandler(&stepperMotorRadioController1);
