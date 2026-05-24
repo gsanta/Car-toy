@@ -1,6 +1,8 @@
 #ifndef JOYSTICK_COMMAND_TRANSMITTER_H
 #define JOYSTICK_COMMAND_TRANSMITTER_H
 
+#include <Arduino.h>
+#include <string.h>
 #include "../../../libs/input/joystick/staged_joystick_reader.h"
 #include "../../../libs/system/timer/timer_handler.h"
 #include "../../../libs/system/timer/timer_control.h"
@@ -29,7 +31,15 @@ public:
     if (xStage != lastXStage || yStage != lastYStage) {
       char text[32] = {0};
       snprintf(text, sizeof(text), "Move X Stage: %d, Y Stage: %d", xStage, yStage);
+      
+      Serial.print("Transmitting: ");
+      Serial.println(text);
       transmitter.write(text, sizeof(text));
+
+      Serial.print("Staged move X=");
+      Serial.print(xStage);
+      Serial.print(" Y=");
+      Serial.println(yStage);
       
       lastXStage = xStage;
       lastYStage = yStage;

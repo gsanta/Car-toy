@@ -24,7 +24,7 @@ MotorDriverA4988 motor2(4, 5);
 StepperMotorRadioController stepperMotorRadioController1(motor, CONTROL_X);
 StepperMotorRadioController stepperMotorRadioController2(motor2, CONTROL_Y);
 
-const byte address[6] = "00001";
+const byte address[5] = {0x30, 0x30, 0x30, 0x30, 0x31};
 RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
 
 BeltDriver belt(LIMIT_SWITCH_PIN_3, LIMIT_SWITCH_PIN_4, timerControl, motor);
@@ -32,6 +32,9 @@ BeltDriver belt2(LIMIT_SWITCH_PIN_1, LIMIT_SWITCH_PIN_2, timerControl, motor2);
 
 void setup() {
   Serial.begin(9600);
+  Serial.print("CPU Frequency: ");
+  Serial.println(F_CPU);
+  Serial.println("Box setup successful!");
   
   radioTransmitter.setup(true);
   radioTransmitter.addCommandHandler(&stepperMotorRadioController1);

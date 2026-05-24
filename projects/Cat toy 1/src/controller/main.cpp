@@ -10,7 +10,7 @@ TimerControl timerControl;
 
 Joystick joystick(A5, A6, 7);
 
-const byte address[6] = "00001";
+const byte address[5] = {0x30, 0x30, 0x30, 0x30, 0x31};
 RF24RadioTransmitter radioTransmitter(8, 9, address);
 
 JoystickUpdater joystickUpdater(joystick, timerControl);
