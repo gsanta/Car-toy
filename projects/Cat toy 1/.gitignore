@@ -3,3 +3,15 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+wiring/**/*.zip
+wiring/**/*.csv
+*.bak
+*.stl
+*.gbr
+*.drl
+*.blend1
+*.blend
+*.rpt
+fp-info-cache
+*.gbrjob
+*.kicad_prl
