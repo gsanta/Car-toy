@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "cat")(type "KiCad")(uri "/home/gsanta/Arduino/car_driver/projects/Cat toy 1/wiring/cat.pretty")(options "")(descr ""))
+)

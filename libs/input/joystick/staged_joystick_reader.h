@@ -1,3 +1,6 @@
+#ifndef STAGED_JOYSTICK_READER_H
+#define STAGED_JOYSTICK_READER_H
+
 #include "./joystick_command_handler.h"
 #include "./joystick.h"
 
@@ -20,3 +23,5 @@ private:
 
   Joystick& joystick;
 };
+
+#endif

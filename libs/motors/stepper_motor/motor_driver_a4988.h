@@ -33,6 +33,7 @@ class MotorDriverA4988 : public StepperMotorDriver {
     uint8_t dirPin;
     uint8_t lastStepVoltage = LOW;
     int speed = 1;
+    int currentDelayUs = 3600;
     bool is_running = false;
     uint8_t direction = UP;
 };

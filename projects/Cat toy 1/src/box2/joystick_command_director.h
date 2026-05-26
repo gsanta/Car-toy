@@ -30,6 +30,13 @@ public:
   }
 
   void handleStagedMove(int xStage, int yStage) override {
+    // Keep only the dominant axis to avoid joystick cross-talk driving both motors.
+    if (abs(xStage) > abs(yStage)) {
+      yStage = 0;
+    } else if (abs(yStage) > abs(xStage)) {
+      xStage = 0;
+    }
+
     if (xStage != lastXStage) {
       controlMotor(motorX, xStage);
       lastXStage = xStage;

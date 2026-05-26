@@ -33,10 +33,13 @@ JoystickCommandDirector joystickCommandDirector(joystick, motorX, motorY, timerC
 
 // Radio transmitter (receiver) setup
 const byte address[5] = {0x30, 0x30, 0x30, 0x30, 0x31};
-RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
+// RF24RadioTransmitterManager radioTransmitter(8, 9, address, timerControl);
 
 StepperMotorRadioController stepperMotorRadioController1(motorX, CONTROL_X);
 StepperMotorRadioController stepperMotorRadioController2(motorY, CONTROL_Y);
+
+
+RF24RadioTransmitter radioTransmitter(8, 9, address);
 
 
 void setup() {
@@ -45,15 +48,15 @@ void setup() {
   Serial.println(F_CPU);
   Serial.println("Box2 - Joystick + Radio Motor Control!");
 
-  // joystickUpdater.setup();
-  // motorX.setIsRunning(false);
-  // motorY.setIsRunning(false);
-  // timerControl.add_microsecond_handler(&motorXAdapter);
-  // timerControl.add_microsecond_handler(&motorYAdapter);
-  // joystickCommandDirector.setup();
+  joystickUpdater.setup();
+  motorX.setIsRunning(false);
+  motorY.setIsRunning(false);
+  timerControl.add_microsecond_handler(&motorXAdapter);
+  timerControl.add_microsecond_handler(&motorYAdapter);
+  joystickCommandDirector.setup();
   
   // Initialize radio receiver
-  radioTransmitter.setup(true);
+  radioTransmitter.setup(false);
   // radioTransmitter.addCommandHandler(&stepperMotorRadioController1);
   // radioTransmitter.addCommandHandler(&stepperMotorRadioController2);
   Serial.println("Radio receiver initialized");

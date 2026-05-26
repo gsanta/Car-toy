@@ -11,6 +11,8 @@ private:
   uint8_t csnPin;
   byte address[6];
   char receivedText[32];
+  // byte address[5];
+  // char receivedText[33];
     
 public:
   RF24RadioTransmitter(uint8_t ce, uint8_t csn, const byte* addr);
