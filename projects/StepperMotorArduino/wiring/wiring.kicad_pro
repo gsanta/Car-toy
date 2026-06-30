@@ -189,7 +189,10 @@
       "track_widths": [
         0.0,
         0.25,
-        0.5
+        0.5,
+        1.0,
+        1.5,
+        2.0
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -628,6 +631,18 @@
     [
       "289074d8-3c04-42e8-9195-9b466cb3f71e",
       "Root"
+    ],
+    [
+      "9c21d637-8b37-4749-8701-b3495898f75e",
+      "Limit Switches"
+    ],
+    [
+      "4eeaa9d7-30d8-484e-972f-6a8344bb8dbb",
+      "Radio"
+    ],
+    [
+      "f145bd39-a946-4123-a070-237c49ceef87",
+      "Motors"
     ]
   ],
   "text_variables": {}

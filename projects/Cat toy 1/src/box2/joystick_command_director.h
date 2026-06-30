@@ -41,16 +41,16 @@ public:
       controlMotor(motorX, xStage);
       lastXStage = xStage;
       
-      Serial.print("X Stage: ");
-      Serial.println(xStage);
+      // Serial.print("X Stage: ");
+      // Serial.println(xStage);
     }
     
     if (yStage != lastYStage) {
       controlMotor(motorY, yStage);
       lastYStage = yStage;
       
-      Serial.print("Y Stage: ");
-      Serial.println(yStage);
+      // Serial.print("Y Stage: ");
+      // Serial.println(yStage);
     }
   }
 
@@ -66,12 +66,12 @@ private:
 
   void controlMotor(MotorDriverA4988& motor, int stage) {
     // stage = 0: stop, > 0: UP, < 0: DOWN
-    Serial.print("  controlMotor stage=");
-    Serial.print(stage);
-    Serial.print(" running=");
+    // Serial.print("  controlMotor stage=");
+    // Serial.print(stage);
+    // Serial.print(" running=");
     if (stage == 0) {
       motor.setIsRunning(false);
-      Serial.println("false");
+      // Serial.println("false");
     } else {
       motor.setIsRunning(true);
       
@@ -84,10 +84,10 @@ private:
       }
       
       motor.setSpeed(speed);
-      Serial.print("true dir=");
-      Serial.print(stage > 0 ? "UP" : "DOWN");
-      Serial.print(" speed=");
-      Serial.println(speed);
+      // Serial.print("true dir=");
+      // Serial.print(stage > 0 ? "UP" : "DOWN");
+      // Serial.print(" speed=");
+      // Serial.println(speed);
     }
   }
 };

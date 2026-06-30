@@ -12,7 +12,7 @@ class JoystickCommandTransmitter : public TimerHandler, public StagedJoystickRea
 public:
   JoystickCommandTransmitter(Joystick& joystick, RF24RadioTransmitter& transmitter, TimerControl& timerControl) 
     : TimerHandler(100), StagedJoystickReader(3, joystick), transmitter(transmitter), timerControl(timerControl),
-      lastXStage(0), lastYStage(0) {}
+      lastXStage(99), lastYStage(99), lastSentAt(0) {}
 
   void setup() {
     timerControl.add_millisecond_handler(this);
@@ -28,30 +28,33 @@ public:
   }
 
   void handleStagedMove(int xStage, int yStage) override {
-    if (xStage != lastXStage || yStage != lastYStage) {
-      char text[32] = {0};
-      snprintf(text, sizeof(text), "Move X Stage: %d, Y Stage: %d", xStage, yStage);
-      
-      Serial.print("Transmitting: ");
-      Serial.println(text);
-      transmitter.write(text, sizeof(text));
+    const unsigned long now = millis();
+    const bool changed = (xStage != lastXStage || yStage != lastYStage);
+    const bool resendDue = (now - lastSentAt) >= RESEND_INTERVAL_MS;
 
-      Serial.print("Staged move X=");
-      Serial.print(xStage);
-      Serial.print(" Y=");
-      Serial.println(yStage);
-      
+    if (changed || resendDue) {
+      sendStageMessage(xStage, yStage, changed);
       lastXStage = xStage;
       lastYStage = yStage;
+      lastSentAt = now;
     }
   }
 
 private:
+  void sendStageMessage(int xStage, int yStage, bool changed) {
+    char text[32] = {0};
+    snprintf(text, sizeof(text), "Move X Stage: %d, Y Stage: %d", xStage, yStage);
+    transmitter.write(text, sizeof(text));
+  }
+
+  static const unsigned long RESEND_INTERVAL_MS = 1000;
+
   RF24RadioTransmitter& transmitter;
   TimerControl& timerControl;
 
   int lastXStage;
   int lastYStage;
+  unsigned long lastSentAt;
 };
 
 #endif

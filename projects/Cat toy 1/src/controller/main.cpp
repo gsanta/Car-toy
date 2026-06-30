@@ -20,7 +20,13 @@ void setup() {
   Serial.begin(9600);
   
   joystickUpdater.setup();
-  radioTransmitter.setup(false);
+  const bool radioOk = radioTransmitter.setup(false);
+  if (!radioOk) {
+    Serial.println("Radio transmitter failed to initialize");
+    return;
+  }
+
+  Serial.println("Radio transmitter initialized");
   joystickCommandTransmitter.setup();
 }
 
