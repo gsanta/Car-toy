@@ -40,11 +40,7 @@ void setup() {
   timerControl.add_microsecond_handler(&motorYAdapter);
   
   // Initialize radio receiver
-  const bool radioOk = radioTransmitter.setup(true);
-  if (!radioOk) {
-    Serial.println("Radio receiver failed to initialize");
-    return;
-  }
+  radioTransmitter.setup(true);
 
   radioTransmitter.addCommandHandler(&stepperMotorRadioController1);
   radioTransmitter.addCommandHandler(&stepperMotorRadioController2);
