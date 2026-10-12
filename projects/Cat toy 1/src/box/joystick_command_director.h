@@ -37,6 +37,23 @@ public:
       xStage = 0;
     }
 
+    if (getJoystick().isDebugEnabled()) {
+      unsigned long now = millis();
+      if (now - lastDebugPrintMs >= debugPrintIntervalMs) {
+        lastDebugPrintMs = now;
+        Serial.print("Joystick raw X=");
+        Serial.print(getJoystick().getXVal());
+        Serial.print(" Y=");
+        Serial.print(getJoystick().getYVal());
+        Serial.print(" Button=");
+        Serial.print(getJoystick().getButtonState());
+        Serial.print(" Stage X=");
+        Serial.print(xStage);
+        Serial.print(" Y=");
+        Serial.println(yStage);
+      }
+    }
+
     if (xStage != lastXStage) {
       controlMotor(motorX, xStage);
       lastXStage = xStage;
@@ -63,15 +80,13 @@ private:
   int lastYStage;
   
   int maxSpeed = 3;
+  unsigned long lastDebugPrintMs = 0;
+  const unsigned long debugPrintIntervalMs = 500;
 
   void controlMotor(MotorDriverA4988& motor, int stage) {
     // stage = 0: stop, > 0: UP, < 0: DOWN
-    // Serial.print("  controlMotor stage=");
-    // Serial.print(stage);
-    // Serial.print(" running=");
     if (stage == 0) {
       motor.setIsRunning(false);
-      // Serial.println("false");
     } else {
       motor.setIsRunning(true);
       
@@ -84,10 +99,6 @@ private:
       }
       
       motor.setSpeed(speed);
-      // Serial.print("true dir=");
-      // Serial.print(stage > 0 ? "UP" : "DOWN");
-      // Serial.print(" speed=");
-      // Serial.println(speed);
     }
   }
 };

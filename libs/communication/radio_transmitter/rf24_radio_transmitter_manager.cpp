@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "rf24_radio_transmitter_manager.h"
 
-RF24RadioTransmitterManager::RF24RadioTransmitterManager(uint8_t ce, uint8_t csn, const byte* addr, TimerControl& timerControl) : radio(ce, csn, addr), timerControl(timerControl), timerListener(*this) {}
+RF24RadioTransmitterManager::RF24RadioTransmitterManager(uint8_t ce, uint8_t csn, const byte* addr, TimerControl& timerControl, bool isDebug) : radio(ce, csn, addr, isDebug), timerControl(timerControl), timerListener(*this) {}
 
 void RF24RadioTransmitterManager::setup(bool read) {
   radio.setup(read);

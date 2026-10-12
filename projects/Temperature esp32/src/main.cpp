@@ -9,24 +9,55 @@
 #define SCREEN_HEIGHT 64
 
 // I2C pins for OLED
-#define SDA_PIN 5  // Try 5 if 21 doesn't work
-#define SCL_PIN 4  // Try 4 if 22 doesn't work
+#define SDA_PIN 21
+#define SCL_PIN 22
+#define BUTTON_PIN 27
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 #define DHTPIN 4
-#define DHTTYPE DHT11
+#define DHTTYPE DHT22
+// #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
 ESP32WiFiManager wifiManagerImpl("Vodafone-7342", "eUEgdRmpgdnhBam6", "192.168.0.107", 3000);
 WiFiManager* wifiManager = &wifiManagerImpl;
 
+bool displayEnabled = true;
+int lastButtonReading = HIGH;
+int buttonState = HIGH;
+unsigned long lastDebounceTime = 0;
+
+void updateDisplayButton() {
+  int reading = digitalRead(BUTTON_PIN);
+
+  if (reading != lastButtonReading) {
+    lastDebounceTime = millis();
+  }
+
+  if (millis() - lastDebounceTime >= 50 && reading != buttonState) {
+    buttonState = reading;
+
+    if (buttonState == LOW) {
+      displayEnabled = !displayEnabled;
+
+      if (!displayEnabled) {
+        display.clearDisplay();
+        display.display();
+      }
+    }
+  }
+
+  lastButtonReading = reading;
+}
+
 void setup() {
   Serial.begin(9600);
   delay(1000);
   Serial.println("\n--- ESP32 Temperature Monitor Started ---");
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
   
-  Serial.println("Initializing DHT11 sensor...");
+  Serial.println("Initializing DHT22 sensor...");
   dht.begin();
 
   // Initialize I2C with custom pins
@@ -49,11 +80,13 @@ void setup() {
 }
 
 void loop() {
+  updateDisplayButton();
+
   float h = dht.readHumidity();
   float t = dht.readTemperature();
 
   if (isnan(h) || isnan(t)) {
-    Serial.println("ERROR: Failed to read DHT11 sensor!");
+    Serial.println("ERROR: Failed to read DHT22 sensor!");
     Serial.println("Check wiring and connections\n");
     delay(2000);
     return;
@@ -64,24 +97,24 @@ void loop() {
   float h1 = round(h * 10) / 10.0;
 
 
-  display.clearDisplay();
-  display.setTextSize(2);
+  if (displayEnabled) {
+    display.clearDisplay();
+    display.setTextSize(2);
 
-  display.setCursor(0, 0);
-  display.print("Tem: ");
-  display.print(t1, 1);   // 1 decimal
-  display.println("C");
+    display.setCursor(0, 0);
+    display.print("Tem: ");
+    display.print(t1, 1);   // 1 decimal
+    display.println("C");
 
-  display.setCursor(0, 30);
-  display.print("Hum: ");
-  display.print(h1, 1);   // 1 decimal
-  display.println("%");
+    display.setCursor(0, 30);
+    display.print("Hum: ");
+    display.print(h1, 1);   // 1 decimal
+    display.println("%");
 
-  display.display();
+    display.display();
+  }
 
   // Send HTTP request
-  display.display();
-
   wifiManager->sendHttpRequest(t1, h1);
 
   delay(2000);

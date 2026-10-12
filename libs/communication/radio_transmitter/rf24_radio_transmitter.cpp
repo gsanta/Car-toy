@@ -1,9 +1,10 @@
 #include "rf24_radio_transmitter.h"
 #include <string.h>
 
-RF24RadioTransmitter::RF24RadioTransmitter(uint8_t ce, uint8_t csn, const byte* addr)
-  : radio(ce, csn), cePin(ce), csnPin(csn) {
-  memcpy(address, addr, 6);
+RF24RadioTransmitter::RF24RadioTransmitter(uint8_t ce, uint8_t csn, const byte* addr, bool isDebug)
+  : radio(ce, csn), cePin(ce), csnPin(csn), isDebug(isDebug), isInitialized(false) {
+  memcpy(address, addr, 5);
+  address[5] = 0;
   receivedText[0] = '\0';
 }
 
@@ -12,8 +13,6 @@ RF24RadioTransmitter::~RF24RadioTransmitter() {
 }
 
 void RF24RadioTransmitter::setup(bool read) {
-  radio.begin();
-
   delay(500);
 
     Serial.println("[RF24] Attempting to initialize...");
@@ -23,7 +22,12 @@ void RF24RadioTransmitter::setup(bool read) {
   
   // Try with retries
   int retries = 0;
-  while (retries < 3 && !radio.begin()) {
+  while (retries < 3 && !isInitialized) {
+    isInitialized = radio.begin();
+    if (isInitialized) {
+      break;
+    }
+
     Serial.print("[RF24] Init failed (attempt ");
     Serial.print(retries + 1);
     Serial.println("), retrying...");
@@ -33,7 +37,7 @@ void RF24RadioTransmitter::setup(bool read) {
     retries++;
   }
 
-    if (retries >= 3) {
+  if (!isInitialized) {
     Serial.println("[RF24] Init failed after 3 attempts - possible hardware issue");
     Serial.println("[RF24] For new Arduino clones, check:");
     Serial.println("  - Oscillator frequency (should be 16MHz)");
@@ -67,8 +71,17 @@ void RF24RadioTransmitter::setup(bool read) {
 }
 
 bool RF24RadioTransmitter::read() {
+  if (!isInitialized) {
+    return false;
+  }
+
   if (radio.available()) {
     radio.read(&receivedText, sizeof(receivedText));
+
+    if (isDebug) {
+      Serial.print("[RF24] Received: ");
+      Serial.println(receivedText);
+    }
 
     // radio.read(receivedText, 32);
     // receivedText[32] = '\0';  // Null terminate
@@ -85,7 +98,18 @@ void RF24RadioTransmitter::write(const char* text, size_t length) {
   // Serial.print("[RF24] Sending: ");
   // Serial.println(text);
   // radio.write(buffer, 32);
-  radio.write(text, length);
+  if (!isInitialized) {
+    if (isDebug) {
+      Serial.println("[RF24] Not sent: radio is not initialized");
+    }
+    return;
+  }
+
+  const bool sent = radio.write(text, length);
+  if (isDebug) {
+    Serial.print(sent ? "[RF24] Sent: " : "[RF24] Send failed: ");
+    Serial.println(text);
+  }
 }
 
 const char* RF24RadioTransmitter::getReceivedText() {

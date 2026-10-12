@@ -24,7 +24,7 @@ public:
 class RF24RadioTransmitterManager {
   friend class RadioTimerListener;
   public:
-    RF24RadioTransmitterManager(uint8_t ce, uint8_t csn, const byte* addr, TimerControl& timerControl);
+    RF24RadioTransmitterManager(uint8_t ce, uint8_t csn, const byte* addr, TimerControl& timerControl, bool isDebug = false);
 
     void setup(bool read);
 
